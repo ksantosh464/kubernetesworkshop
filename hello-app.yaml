@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: hello-app
+  name: hello-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: hello-app
+    spec:
+      containers:
+      - image: gcr.io/santoshkunchala-ce/hello-app:COMMIT_SHA
+        imagePullPolicy: IfNotPresent
+        name: hello-app
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: hello-app
+  name: hello-app-service
+  namespace: default
+spec:
+  ports:
+  - nodePort: 30025
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: hello-app
+  type: LoadBalancer
