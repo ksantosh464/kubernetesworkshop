@@ -1,15 +1,15 @@
 steps:
   # build the container image
 - name: "gcr.io/cloud-builders/docker"
-  args: ["build", "-t", "gcr.io/santoshkunchala-ce/hello-app:$SHORT_SHA", "."]
+  args: ["build", "-t", "gcr.io/$PROJECT_ID/hello-app:$SHORT_SHA", "."]
   # push container image
 - name: "gcr.io/cloud-builders/docker"
-  args: ["push", "gcr.io/santoshkunchala-ce/hello-app:$SHORT_SHA"]
+  args: ["push", "gcr.io/$PROJECT_ID/hello-app:$SHORT_SHA"]
   # deploy container image to GKE
 - name: "gcr.io/cloud-builders/gke-deploy"
   args:
   - run
   - --filename=hello-app.yaml
-  - --image=gcr.io/santoshkunchala-ce/hello-app:$SHORT_SHA
+  - --image=gcr.io/$PROJECT_ID/hello-app:$SHORT_SHA
   - --location=us-central1-c
   - --cluster=hello-cluster
