@@ -21,7 +21,7 @@ spec:
         app: hello-app
     spec:
       containers:
-      - image: gcr.io/santoshkunchala-ce/hello-app:COMMIT_SHA
+      - image: gcr.io/$PROJECT_ID/hello-app:COMMIT_SHA
         imagePullPolicy: IfNotPresent
         name: hello-app
         ports:
